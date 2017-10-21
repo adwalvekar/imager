@@ -753,4 +753,7 @@ label span{
 		clear:both;
 	}
 }
+.newHiddenClass{
+	visibility: hidden;
+}
 /* ========================================================================== */

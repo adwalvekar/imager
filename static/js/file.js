@@ -136,6 +136,36 @@ function FILE_CLASS() {
 		};
 		img.src = url;
 	};
+	this.custom_file_open_url_handler = function(url){
+		if(url == '')
+			return;
+		
+		var layer_name = url.replace(/^.*[\\\/]/, '');
+		
+		var img = new Image();
+		img.crossOrigin = "Anonymous";
+		img.onload = function () {
+			EDIT.save_state();
+			LAYER.layer_add(layer_name);
+			
+			if (img.width > WIDTH)
+				WIDTH = img.width;
+			if (img.height > HEIGHT)
+				HEIGHT = img.height;
+			LAYER.set_canvas_size();
+			
+			canvas_active().drawImage(img, 0, 0);
+			if(EVENTS.autosize == true)
+				IMAGE.trim();
+			GUI.zoom_auto(true);
+			GUI.redraw_preview();
+		};
+		img.onerror = function (ex) {
+			POP.add({html: 'Sorry, image could not be loaded. Try copy image and paste it.'});
+			POP.show('Error', '.');
+		};
+		img.src = url;
+	};
 
 	//save
 	this.file_save = function () {
